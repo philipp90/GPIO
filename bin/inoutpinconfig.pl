@@ -18,8 +18,16 @@ my $i;
 
 # set up GPIOs as outputs
 for($i=0;$i<$pcfg->param("gpios.outputCount");$i++){
-  	my $value= $pcfg->param("OUTPUTS.OUTPUT$i");
+	my $value= $pcfg->param("OUTPUTS.OUTPUT$i");
+	my $invert = $pcfg->param("OUTPUTS.OUTPUT$i".".INVERT");
+	
     system("pigs modes $value w");
+    
+    if($invert eq("true")){
+        system("pigs w $value 1");
+    } else {
+        system("pigs w $value 0");
+    }
 }
 
 # set up GPIOs as inputs
